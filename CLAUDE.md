@@ -18,7 +18,11 @@ manos poco firmes y ninguna paciencia para la informática**.
 ```bash
 npm install
 cp .env.example .env          # y genera SESSION_SECRET: openssl rand -base64 48
-npm run setup                 # prisma generate + db push + seed
+
+# `setup` termina dando de alta a la abuela, así que necesita su clave en la
+# misma línea; sin ella el seed se planta (a propósito) y setup sale con error.
+ABUELA_USUARIO=abuela ABUELA_CLAVE="tres palabras sueltas" ABUELA_NOMBRE="Doña Carmen" npm run setup
+
 npm run dev                   # http://localhost:3000
 
 npm run typecheck             # tsc --noEmit

@@ -22,19 +22,24 @@ npm install
 cp .env.example .env
 # Genere el secreto de sesión y péguelo en SESSION_SECRET:
 openssl rand -base64 48
-
-npm run setup
 ```
 
-`npm run setup` prepara la base de datos. Después, dé de alta a la abuela
+Ahora prepare la base de datos y dé de alta a la abuela, todo de una vez,
 eligiendo su usuario, su contraseña y el nombre con el que Charles la saludará:
 
 ```bash
 ABUELA_USUARIO=abuela \
 ABUELA_CLAVE="tres palabras sueltas" \
 ABUELA_NOMBRE="Doña Carmen" \
-npm run db:seed
+npm run setup
 ```
+
+> `setup` termina llamando al alta, así que la contraseña tiene que ir en esa
+> misma línea. Si ejecuta `npm run setup` a secas, el alta se planta a propósito
+> y le recuerda que falta la clave.
+
+Más adelante, para cambiarle la contraseña el día que la olvide, basta con
+`npm run db:seed` y las mismas variables.
 
 > Para la contraseña, tres palabras corrientes ("mesa camino jardín") son más
 > seguras y muchísimo más fáciles de recordar que `Abc123!`.
