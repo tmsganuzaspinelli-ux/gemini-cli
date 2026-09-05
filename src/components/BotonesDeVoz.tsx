@@ -5,7 +5,7 @@ import { VELOCIDAD_NORMAL, VELOCIDAD_TORTUGA, type EstadoVoz } from '@/hooks/use
 /**
  * Los dos botones de audio que acompañan a cada frase en inglés:
  * "Escuchar" a velocidad normal y "Despacito" a 0,75x.
- * Ambos de 56px de alto y con texto, no sólo iconos.
+ * Ambos de 70px de alto y con texto, no sólo iconos.
  */
 export default function BotonesDeVoz({
   texto,

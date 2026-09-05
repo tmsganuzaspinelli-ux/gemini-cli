@@ -18,7 +18,11 @@ manos poco firmes y ninguna paciencia para la informática**.
 ```bash
 npm install
 cp .env.example .env          # y genera SESSION_SECRET: openssl rand -base64 48
-npm run setup                 # prisma generate + db push + seed
+
+# `setup` termina dando de alta a la abuela, así que necesita su clave en la
+# misma línea; sin ella el seed se planta (a propósito) y setup sale con error.
+ABUELA_USUARIO=abuela ABUELA_CLAVE="tres palabras sueltas" ABUELA_NOMBRE="Doña Carmen" npm run setup
+
 npm run dev                   # http://localhost:3000
 
 npm run typecheck             # tsc --noEmit
@@ -116,7 +120,10 @@ scripts/seed.ts           Alta de la abuela
 ### La interfaz
 
 - **Base tipográfica 20px** (`html { font-size: 125% }`). No la bajes.
-- **Controles de 56px mínimo** (`min-h-control`). El micrófono, 88px.
+- **Controles con suelo de 70px** (`min-h-control` = 3.5rem sobre una raíz de
+  20px). Medido en el navegador: botones 73px, enlaces de cabecera 70px,
+  micrófono 110px. El mínimo táctil recomendado son 44px: vamos holgados a
+  propósito.
 - **Contraste WCAG AAA** (7:1). Los colores de `tailwind.config.ts` están
   medidos; si añades uno, mídelo.
 - **Botones con texto, no sólo iconos.** Un icono suelto no se entiende.
