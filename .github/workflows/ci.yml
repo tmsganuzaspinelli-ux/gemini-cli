@@ -76,6 +76,24 @@ jobs:
           ABUELA_CLAVE: tres palabras sueltas
           ABUELA_NOMBRE: Doña Carmen
 
+      - name: Abrir la aplicación como la abre la familia
+        # `npm run casa` es el único comando que ellos escriben. Aquí se
+        # comprueba el camino entero —compilar y servir— y que la pantalla de
+        # entrada responde. Si esto se rompe, ella se queda mirando una pestaña
+        # en blanco y nadie en casa sabrá por qué.
+        env:
+          SESSION_SECRET: solo-para-ci-una-cadena-de-mas-de-32-caracteres
+        run: |
+          npm run casa > casa.log 2>&1 &
+          if ! curl --silent --fail \
+                    --retry 60 --retry-all-errors --retry-delay 2 --max-time 300 \
+                    --output /dev/null http://localhost:3000/; then
+            echo "::error::La aplicación no llegó a servir la pantalla de entrada."
+            cat casa.log
+            exit 1
+          fi
+          echo "Correcto: la pantalla de entrada respondió."
+
       - name: Rechazar una contraseña demasiado corta
         # El guardarraíl del seed: una clave de menos de 8 caracteres tiene que
         # fallar. Si algún día dejara de hacerlo, la familia podría dejarle

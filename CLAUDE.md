@@ -18,13 +18,41 @@ manos poco firmes y ninguna paciencia para la informática**.
 ```bash
 npm install
 cp .env.example .env          # y genera SESSION_SECRET: openssl rand -base64 48
-npm run setup                 # prisma generate + db push + seed
-npm run dev                   # http://localhost:3000
+npm run setup                 # telemetría off + prisma generate + db push + seed
+
+npm run casa                  # ← lo que corre la familia en casa de ella
+npm run dev                   # ← lo que corres tú mientras programas
 
 npm run typecheck             # tsc --noEmit
 npm run build                 # prisma generate + next build
 npm run db:seed               # alta o cambio de contraseña de la abuela
 ```
+
+### `casa` y `dev` no son lo mismo
+
+`next dev` compila cada pantalla **la primera vez que se abre**. Para ti es lo
+correcto: recarga en caliente y ves los cambios al guardar. Para ella es el
+motivo de que el navegador se quede en blanco varios segundos cada vez que entra.
+
+`npm run casa` (`scripts/casa.mjs`) arranca el modo de producción, que ya viene
+compilado, y sólo vuelve a compilar si `src/`, el esquema de Prisma o la
+configuración han cambiado desde la última vez. Medido aquí:
+
+|  | Arranque | Primera apertura de `/` |
+|---|---|---|
+| `npm run dev` | 1,0 s | 5,1 s |
+| `npm run casa` (ya compilado) | 0,3 s | 0,07 s |
+
+Dos consecuencias para quien toque esto:
+
+- **La documentación para la familia nombra `casa`, nunca `dev`.** Si cambias el
+  README, mantenlo así.
+- Si añades una carpeta de código nueva fuera de `src/`, apúntala en la lista
+  `fuentes` de `scripts/casa.mjs`, o `casa` servirá una versión vieja.
+
+`npm run dev` usa **Turbopack**. Si alguna vez topas con un fallo del empaquetador
+y necesitas descartarlo, `npm run dev:webpack` arranca con el anterior. `next build`
+sigue usando webpack en los dos casos, así que CI no cambia.
 
 Dar de alta a la abuela (o cambiarle la clave el día que la olvide):
 
