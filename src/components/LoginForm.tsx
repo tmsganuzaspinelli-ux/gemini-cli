@@ -6,7 +6,7 @@ import { useState } from 'react';
 /**
  * Formulario de acceso pensado para unas manos que ya no son firmes
  * y unos ojos que ya no son los de antes:
- *  - campos de 56px de alto y letra de 20px;
+ *  - campos de 70px de alto y letra de 25px;
  *  - botón grande de "Mostrar contraseña" (no un iconito diminuto);
  *  - mensajes que explican qué hacer, nunca códigos de error.
  */

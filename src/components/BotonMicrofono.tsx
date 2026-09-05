@@ -4,7 +4,7 @@ import type { EstadoMicrofono } from '@/hooks/useSpeechRecognition';
 
 /**
  * Un micrófono grande y evidente. La abuela prefiere hablar antes que teclear,
- * así que este botón ocupa lo que tiene que ocupar: 88px de alto.
+ * así que este botón ocupa lo que tiene que ocupar: 110px de alto.
  */
 export default function BotonMicrofono({ microfono }: { microfono: EstadoMicrofono }) {
   if (!microfono.disponible) return null;

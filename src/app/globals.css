@@ -35,7 +35,7 @@
 }
 
 @layer components {
-  /* Botón principal: 56px de alto, texto grande, contraste AAA. */
+  /* Botón principal: 70px de alto, texto grande, contraste AAA. */
   .boton-principal {
     @apply inline-flex min-h-control w-full items-center justify-center gap-3 rounded-suave
            bg-charles px-6 py-3 text-lg font-semibold text-white shadow-tarjeta
@@ -50,7 +50,7 @@
            disabled:cursor-not-allowed disabled:opacity-60;
   }
 
-  /* Campo de texto: 56px de alto y 20px de letra, como pide la abuela. */
+  /* Campo de texto: 70px de alto y 25px de letra. Generoso a propósito. */
   .campo {
     @apply min-h-control w-full rounded-suave border-2 border-tintaSuave bg-white px-4 py-3
            text-base text-tinta placeholder:text-tintaSuave/70
