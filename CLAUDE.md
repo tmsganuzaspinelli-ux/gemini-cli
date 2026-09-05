@@ -116,7 +116,10 @@ scripts/seed.ts           Alta de la abuela
 ### La interfaz
 
 - **Base tipográfica 20px** (`html { font-size: 125% }`). No la bajes.
-- **Controles de 70px** (`min-h-control` = 3.5rem sobre una raíz de 20px). El micrófono, 110px. El mínimo táctil recomendado son 44px: vamos holgados a propósito.
+- **Controles con suelo de 70px** (`min-h-control` = 3.5rem sobre una raíz de
+  20px). Medido en el navegador: botones 73px, enlaces de cabecera 70px,
+  micrófono 110px. El mínimo táctil recomendado son 44px: vamos holgados a
+  propósito.
 - **Contraste WCAG AAA** (7:1). Los colores de `tailwind.config.ts` están
   medidos; si añades uno, mídelo.
 - **Botones con texto, no sólo iconos.** Un icono suelto no se entiende.

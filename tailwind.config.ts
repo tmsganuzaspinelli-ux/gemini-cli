@@ -6,8 +6,10 @@ import type { Config } from 'tailwindcss';
  * - Contrastes medidos contra WCAG AAA (7:1 para texto normal); los ratios van
  *   anotados junto a cada color.
  * - Alturas de control generosas: `min-h-control` son 3.5rem, y como la raíz va
- *   al 125% eso son 70px reales (no 56). El mínimo táctil recomendado es 44px,
- *   así que vamos holgados a propósito: manos poco firmes agradecen el margen.
+ *   al 125% eso es un suelo de 70px (no de 56). Medido en el navegador, los
+ *   botones acaban en 73px (relleno + interlineado), los enlaces de la cabecera
+ *   en 70px justos y el micrófono en 110px. El mínimo táctil recomendado es
+ *   44px: vamos holgados a propósito, que manos poco firmes lo agradecen.
  */
 const config: Config = {
   content: ['./src/**/*.{js,ts,jsx,tsx,mdx}'],
@@ -45,7 +47,7 @@ const config: Config = {
         '3xl': ['2.375rem', { lineHeight: '2.9rem' }],
       },
       minHeight: {
-        control: '3.5rem', // 70px reales (la raíz va al 125%)
+        control: '3.5rem', // suelo de 70px (la raíz va al 125%)
       },
       borderRadius: {
         suave: '1rem',

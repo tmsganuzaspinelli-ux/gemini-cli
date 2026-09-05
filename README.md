@@ -84,7 +84,7 @@ No es una capa de barniz: es el punto de partida.
 | | |
 |---|---|
 | Tipografía base | 20 px (`html { font-size: 125% }`) |
-| Altura de controles | 70 px · el micrófono, 110 px (mínimo recomendado: 44 px) |
+| Altura de controles | Botones 73 px · enlaces 70 px · micrófono 110 px (mínimo recomendado: 44 px) |
 | Contraste | WCAG AAA (7:1), colores medidos uno a uno |
 | Botones | Siempre con texto, nunca sólo un icono |
 | Foco de teclado | Anillo grueso y visible, jamás oculto |
