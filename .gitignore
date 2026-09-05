@@ -1,0 +1,21 @@
+node_modules/
+.next/
+out/
+build/
+.DS_Store
+*.pem
+
+# Variables de entorno (contienen la API key de Gemini y el secreto de sesión)
+.env
+.env.local
+.env*.local
+
+# Base de datos SQLite local
+prisma/*.db
+prisma/*.db-journal
+prisma/dev.db*
+
+# Logs
+npm-debug.log*
+yarn-error.log*
+*.tsbuildinfo

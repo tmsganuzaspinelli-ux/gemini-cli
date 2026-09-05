@@ -1,0 +1,97 @@
+// Base de datos de "Profesor Charles".
+// SQLite: la aplicación es para una sola persona en casa, no necesita más.
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "sqlite"
+  url      = env("DATABASE_URL")
+}
+
+/// La abuela (y cualquier familiar que la familia dé de alta).
+/// La contraseña se guarda siempre como hash de bcrypt, nunca en claro.
+model User {
+  id           String   @id @default(cuid())
+  username     String   @unique
+  passwordHash String
+  /// Nombre con el que Charles la saluda: "Doña Carmen", "Abuela Pepa"...
+  displayName  String
+  /// Ritmo de voz preferido: 1.0 normal, 0.75 "tortuga".
+  speechRate   Float    @default(1.0)
+  createdAt    DateTime @default(now())
+  updatedAt    DateTime @updatedAt
+
+  conversations Conversation[]
+  phrases       SavedPhrase[]
+  sessions      Session[]
+}
+
+/// Sesión persistente (60 días) respaldada por una cookie httpOnly.
+/// Guardamos sólo el hash del token: si alguien leyera la base, no podría entrar.
+model Session {
+  id        String   @id @default(cuid())
+  tokenHash String   @unique
+  userId    String
+  user      User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  expiresAt DateTime
+  createdAt DateTime @default(now())
+  lastSeen  DateTime @default(now())
+
+  @@index([userId])
+  @@index([expiresAt])
+}
+
+/// Una tertulia: el hilo de conversación con Charles.
+model Conversation {
+  id        String   @id @default(cuid())
+  userId    String
+  user      User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  title     String   @default("La Tertulia con Charles")
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  messages Message[]
+
+  @@index([userId])
+}
+
+/// Cada intervención, de la abuela o de Charles.
+model Message {
+  id             String   @id @default(cuid())
+  conversationId String
+  conversation   Conversation @relation(fields: [conversationId], references: [id], onDelete: Cascade)
+  /// "user" | "charles"
+  role           String
+  content        String
+  /// Contexto vital detectado en el mensaje de la abuela:
+  /// "nietos" | "soledad" | "cocina" | "viaje" | "general".
+  vitalContext   String?
+  createdAt      DateTime @default(now())
+
+  @@index([conversationId, createdAt])
+}
+
+/// "Mi Cuaderno de Frases y Películas": lo que la abuela decide guardar.
+model SavedPhrase {
+  id            String   @id @default(cuid())
+  userId        String
+  user          User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  /// Frase tal cual se dice en inglés.
+  english       String
+  /// Qué significa, en castellano llano.
+  spanish       String
+  /// Fonética amable: /Gud mórning/
+  phonetics     String
+  /// Película de la que viene la frase, si Charles la mencionó.
+  movieTitle    String?
+  movieYear     Int?
+  /// Por qué se la recomendó: "para ver con la nieta", "para una tarde de lluvia"...
+  movieNote     String?
+  /// "frase" | "pelicula"
+  kind          String   @default("frase")
+  createdAt     DateTime @default(now())
+
+  @@index([userId, createdAt])
+}

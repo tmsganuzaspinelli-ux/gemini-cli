@@ -1,0 +1,79 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  html {
+    /* Base de 20px: todo lo demás crece a partir de aquí. */
+    font-size: 125%;
+    -webkit-text-size-adjust: 100%;
+  }
+
+  body {
+    @apply bg-papel text-tinta antialiased;
+    font-family: Georgia, 'Iowan Old Style', 'Times New Roman', serif;
+    line-height: 1.7;
+  }
+
+  /* El foco tiene que verse desde el otro lado de la habitación. */
+  :focus-visible {
+    @apply outline-none ring-4 ring-butaca ring-offset-2 ring-offset-papel;
+  }
+
+  /* Nunca escondemos el foco del teclado. */
+  button,
+  a,
+  input,
+  textarea,
+  select {
+    @apply focus-visible:ring-4 focus-visible:ring-butaca focus-visible:ring-offset-2;
+  }
+
+  ::selection {
+    @apply bg-butacaSuave text-tinta;
+  }
+}
+
+@layer components {
+  /* Botón principal: 56px de alto, texto grande, contraste AAA. */
+  .boton-principal {
+    @apply inline-flex min-h-control w-full items-center justify-center gap-3 rounded-suave
+           bg-charles px-6 py-3 text-lg font-semibold text-white shadow-tarjeta
+           transition hover:bg-charlesClaro active:scale-[0.99]
+           disabled:cursor-not-allowed disabled:opacity-60 disabled:hover:bg-charles;
+  }
+
+  .boton-secundario {
+    @apply inline-flex min-h-control items-center justify-center gap-3 rounded-suave
+           border-2 border-charles bg-white px-5 py-3 text-base font-semibold text-charles
+           transition hover:bg-butacaSuave active:scale-[0.99]
+           disabled:cursor-not-allowed disabled:opacity-60;
+  }
+
+  /* Campo de texto: 56px de alto y 20px de letra, como pide la abuela. */
+  .campo {
+    @apply min-h-control w-full rounded-suave border-2 border-tintaSuave bg-white px-4 py-3
+           text-base text-tinta placeholder:text-tintaSuave/70
+           focus:border-charles focus:outline-none;
+  }
+
+  .etiqueta {
+    @apply mb-2 block text-lg font-semibold text-tinta;
+  }
+
+  .tarjeta {
+    @apply rounded-suave border-2 border-pergamino bg-white p-6 shadow-tarjeta;
+  }
+}
+
+/* Quien haya pedido menos animación en su sistema, que no vea ninguna. */
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+}

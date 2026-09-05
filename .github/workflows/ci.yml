@@ -1,0 +1,88 @@
+name: CI
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+  # Permite lanzarlo a mano desde la pestaña Actions.
+  workflow_dispatch:
+
+# Si se empuja dos veces seguidas, cancela la comprobación anterior:
+# no tiene sentido gastar minutos en un commit ya superado.
+concurrency:
+  group: ci-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  comprobaciones:
+    name: Tipos y compilación
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 20
+          cache: npm
+
+      - name: Instalar dependencias
+        run: npm ci
+
+      - name: Generar el cliente de Prisma
+        run: npx prisma generate
+
+      - name: Comprobar el esquema de la base de datos
+        run: npx prisma validate
+        env:
+          DATABASE_URL: file:./ci.db
+
+      - name: Comprobar los tipos
+        run: npm run typecheck
+
+      - name: Compilar
+        # La aplicación compila sin ninguna variable de entorno: SESSION_SECRET
+        # y GEMINI_API_KEY sólo se leen en tiempo de ejecución, y todas las
+        # páginas con sesión son dinámicas. Si algún día esto deja de ser
+        # cierto, este paso fallará y nos enteraremos aquí, no en casa de ella.
+        run: npx next build
+
+  instalacion:
+    name: Puesta en marcha en casa
+    runs-on: ubuntu-latest
+    # Comprueba el camino exacto que sigue la familia al instalarla:
+    # si esto se rompe, la abuela se queda sin poder entrar.
+    env:
+      DATABASE_URL: file:./ci.db
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 20
+          cache: npm
+
+      - name: Instalar dependencias
+        run: npm ci
+
+      - name: Crear la base de datos
+        run: npx prisma db push
+
+      - name: Dar de alta a la abuela
+        run: npm run db:seed
+        env:
+          ABUELA_USUARIO: abuela
+          ABUELA_CLAVE: tres palabras sueltas
+          ABUELA_NOMBRE: Doña Carmen
+
+      - name: Rechazar una contraseña demasiado corta
+        # El guardarraíl del seed: una clave de menos de 8 caracteres tiene que
+        # fallar. Si algún día dejara de hacerlo, la familia podría dejarle
+        # puesta una contraseña débil sin enterarse.
+        run: |
+          if ABUELA_CLAVE=corta npm run db:seed; then
+            echo "::error::El seed aceptó una contraseña de menos de 8 caracteres."
+            exit 1
+          fi
+          echo "Correcto: la contraseña corta fue rechazada."
