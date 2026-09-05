@@ -16,6 +16,7 @@ prisma/*.db-journal
 prisma/dev.db*
 
 # Logs
+casa.log
 npm-debug.log*
 yarn-error.log*
 *.tsbuildinfo

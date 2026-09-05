@@ -42,8 +42,25 @@ npm run db:seed
 Y a andar:
 
 ```bash
-npm run dev     # http://localhost:3000
+npm run casa    # http://localhost:3000
 ```
+
+Ése es el único comando que necesita la familia, hoy y siempre. La primera vez
+tarda un par de minutos preparando la aplicación; a partir de ahí abre en menos
+de un segundo, porque `npm run casa` sólo vuelve a prepararla cuando el código
+ha cambiado de verdad.
+
+> **No use `npm run dev` en casa de ella.** Ese comando es para programar: va
+> compilando cada pantalla la primera vez que se abre, y por eso el navegador se
+> queda en blanco varios segundos. Medido en este proyecto:
+>
+> | | Arranque | Primera vez que abre la pantalla de entrada |
+> |---|---|---|
+> | `npm run dev` | 1,0 s | **5,1 s** |
+> | `npm run casa` | 0,3 s | **0,07 s** |
+>
+> Y en un ordenador de casa, más modesto que el de un programador, esa diferencia
+> se multiplica.
 
 ### La API de Gemini es opcional
 
