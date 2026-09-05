@@ -13,9 +13,6 @@
     "db:seed": "tsx scripts/seed.ts",
     "setup": "prisma generate && prisma db push && npm run db:seed"
   },
-  "prisma": {
-    "seed": "tsx scripts/seed.ts"
-  },
   "dependencies": {
     "@prisma/client": "^6.2.1",
     "bcryptjs": "^2.4.3",

@@ -32,6 +32,22 @@ Dar de alta a la abuela (o cambiarle la clave el día que la olvide):
 ABUELA_USUARIO=abuela ABUELA_CLAVE="tres palabras sueltas" ABUELA_NOMBRE="Doña Carmen" npm run db:seed
 ```
 
+### Qué comprueba CI
+
+`.github/workflows/ci.yml` corre en cada push y cada PR, sin necesidad de
+secretos:
+
+- **Tipos y compilación** — `prisma validate`, `npm run typecheck` y
+  `next build`. La aplicación compila **sin ninguna variable de entorno**
+  (`SESSION_SECRET` y `GEMINI_API_KEY` sólo se leen en tiempo de ejecución, y
+  toda página con sesión es dinámica). Si eso deja de ser cierto, este job
+  falla aquí y no en casa de ella.
+- **Puesta en marcha en casa** — recorre el camino exacto de la familia
+  (`prisma db push` + `db:seed`) y verifica que el seed **rechaza una
+  contraseña de menos de 8 caracteres**.
+
+Antes de empujar, corre al menos `npm run typecheck` y `npm run build`.
+
 ## Arquitectura
 
 ```
